@@ -1,0 +1,92 @@
+
+
+<!-- Created by Neel Shah-->
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Page Title</title>
+        <script src="https://code.jquery.com/jquery-3.1.1.js"></script>
+        <style>
+
+/* Created by Neel Shah */
+
+body {
+    margin:0;
+    overflow:hidden;
+}
+header {
+    position:absolute;
+    left:0;
+    top:0;
+    right:0;
+    height:50px;
+    background-color:#EEE;
+    padding:10px;
+    box-sizing:border-box;
+}
+header > input {
+    border:none;
+    outline:none;
+    background-color:#FDFDFD;
+    height:25px;
+    width:calc(100% - 10px);
+    padding-left:3px;
+}
+iframe {
+    border:none;
+    position:absolute;
+    left:0;
+    top:50px;
+    right:0;
+    height:calc(100vh - 20px);
+    width:100vw;
+}</style>
+    </head>
+    <body>
+        <header>
+            <input type="text" placeholder="Type a URL or search for something">
+        </header>
+        <iframe src="https://sololearn.com"></iframe>
+        <script>
+
+// Created by Neel Shah
+
+$(function() {
+    
+    $("input").keydown(function(event) {
+        
+        if (event.which == 13) goToURL($("input").val());
+        
+    });
+    
+    $("input").focus(function(event) {
+        $("input")[0].select();
+    });
+
+    var observer = new MutationObserver(observerCallback);
+    observer.observe($("iframe")[0], {
+        attributes: true
+    });
+    
+});
+
+function goToURL(url) {
+    
+    if (url.match(/^\w+\..+$/)) url = "https://www." + url;
+    else if (url.match(/^\w+\.\w+\..+$/)) url = "https://" + url;
+    else url = "https://bing.com/search?q=" + encodeURIComponent(url);
+    
+    $("iframe")[0].src = url;
+    
+    $("input").blur();
+    
+}
+
+function observerCallback(mutationList) {
+    
+    $("input").val($("iframe")[0].src);
+    
+}</script>
+    </body>
+</html>
